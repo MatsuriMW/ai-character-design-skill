@@ -43,9 +43,17 @@ def parse(path):
     quote = next((l[2:].strip() for l in body.split("\n") if l.startswith("> ")), "")
     sub = re.search(r"^## 细分\n(.*?)(?=^## |\Z)", body, re.S | re.M)
     subs = [l.strip()[2:] for l in sub.group(1).split("\n") if l.strip().startswith("- ")] if sub else []
+    # 「风格档案」：取每个 ### 小节的标题和正文，跳过只有链接的「品牌」小节
+    essay = []
+    arch = re.search(r"^## 风格档案\n(.*?)(?=^## |\Z)", body, re.S | re.M)
+    if arch:
+        for m2 in re.finditer(r"^### (.+?)\n(.*?)(?=^### |\Z)", arch.group(1), re.S | re.M):
+            title, text = m2.group(1).strip(), " ".join(l.strip() for l in m2.group(2).split("\n") if l.strip() and not l.strip().startswith("- ["))
+            if title != "品牌" and text:
+                essay.append((title, text))
     notes = re.search(r"^## 我的笔记\n(.*?)(?=^## |\Z)", body, re.S | re.M)
     note_lines = [l for l in (notes.group(1).split("\n") if notes else []) if l.strip() not in ("", "-")]
-    return dict(name=path.stem.replace("（风格）", ""), fm=fm, quote=quote, subs=subs, notes=note_lines)
+    return dict(name=path.stem.replace("（风格）", ""), fm=fm, quote=quote, subs=subs, essay=essay, notes=note_lines)
 
 
 def as_list(v):
@@ -94,6 +102,9 @@ def main():
         if s["subs"]:
             out.append("- **细分**：")
             out += [f"  - {x}" for x in s["subs"]]
+        if s["essay"]:
+            out.append("- **风格档案**：")
+            out += [f"  - **{t}**：{x}" for t, x in s["essay"]]
         if s["notes"]:
             out.append("- **笔记**：")
             out += ["  " + l if l.startswith("-") else "  - " + l.strip() for l in s["notes"]]
