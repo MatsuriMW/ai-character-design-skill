@@ -68,6 +68,7 @@ slightly left. Keep all of the above identical in every shot.
   - **服装风格**（47 个，一个人*选择*怎么穿）：绅装、知识分子风、cityboy、老钱、工装、阿美咔叽、哥特、Y2K、Hedi Slimane……，带经典单品、配色 HEX、要当心的地方和风格档案。
   - **时代与类型**（30 多个，时代和故事世界*替人决定*怎么穿）：民国、五六十年代、八十年代、九十年代港风；1920s–1980s 欧美；嘻哈、机车、西部牛仔、杀马特、精神小伙、JK / DK；军警、空乘、保安、流水线、消防；武侠古装（按唐宋明分开写）、港片江湖、黑色电影、赛博朋克、蒸汽朋克、太空科幻、中世纪奇幻。每条都有「容易出错」（常见的时代穿帮和 AI 默认值）和「写给模型」的英文关键词。
   - **人群与身份**（生活观察）：城市老年人：鞋面落了一层灰的黑色老布鞋、凹了的不锈钢保温杯、老花镜插在衬衫口袋、双手背在身后走路；还有外卖骑手、老派教授、菜市场摊主、全职妈妈、小镇青年等 20 多类人。
+- **群像拉开**：多个主要角色同场时，按剪影、主色、发型轮廓、标志性单品、材质、姿态、说话七个轴两两比较（至少 4 轴不同，剪影和主色必须不同），做远景测试和黑白测试，放进「冷暖 × 复杂度」视觉领地，再用一处共同点表达关系。观众分得清谁是谁，模型也不容易把两个人画串。
 - **漂移清单 + 评测**：出图后逐项看哪些写了的东西被模型改回了平均值、怎么修；[`evals/`](juese-sheji/evals/) 带 5 个现成用例，对比「直接写形容词」和「具体化」，测每个模型能保住哪一层细节，结果记进模型能力笔记。
 
 ## 安装
@@ -104,6 +105,7 @@ cd ai-character-design-skill
 - 「民国上海的一个教书先生」「八十年代的一个轻佻青年」「赛博朋克世界里的廉价义体雇佣兵」
 - 「一个清冷的女生，只出全景，用一般档」
 - 「这是我的剧本（贴进来），帮我把三个主角都具体化，再出服化道表和连戏」
+- 「这三个主角怎么拉开，别让观众分不清」
 - 「这几张是生成出来的图，按漂移清单帮我看哪里不像」
 - 「把发型换成备选 ②」（只改那一行，版本号加一）
 
@@ -124,6 +126,7 @@ juese-sheji/
 │   ├── dimensions/              八个维度词库 + 索引（气质词 → 常用切口）
 │   ├── styles/                  风格库：服装风格（生成）+ 时代与类型 + 人群与身份（手写）+ 索引
 │   ├── archetypes/              122 张人物原型卡 + 慎用清单
+│   ├── ensemble.md              群像拉开
 │   ├── drift-checklist.md       审出图用的漂移清单
 │   ├── model-notes.md           各模型能保住 / 吞掉哪些细节（评测后填）
 │   ├── review-checklist.md      检验的六个维度
@@ -131,7 +134,7 @@ juese-sheji/
 │   ├── ai-lock.md               锁定段怎么写
 │   ├── brainstorm-methods.md    创意风暴的方法库
 │   └── archetype-methods.md     原型 → 本土化的方法
-├── templates/                   人物精细描述、人物原型、创意风暴、服化道总表、检验报告
+├── templates/                   人物精细描述、群像对照表、人物原型、创意风暴、服化道总表、检验报告
 ├── examples/轻佻的男性.md        模式 E 的完整示例
 ├── evals/                       评测流程、5 个用例、记录模板
 └── scripts/sync-styles.py       从 Obsidian 风格库生成 服装风格.md
@@ -175,6 +178,6 @@ Core idea: *whatever you leave unsaid, the model fills in with its default — t
 
 A style library backs it up: 47 fashion aesthetics, 30+ eras / subcultures / uniforms / genre worlds (Republican-era China to 1990s Hong Kong, 1920s–1980s West, hip-hop, bikers, cowboys, uniforms, wuxia by dynasty, film noir, cyberpunk, steampunk, sci-fi, medieval fantasy — each with common anachronisms and English prompt keywords), and everyday observations of 20+ kinds of people.
 
-It also covers the rest of character pre-production for AI short films: 122 film archetype cards, costume brainstorming, wardrobe/props/continuity breakdowns, period-accuracy review, a drift checklist for reviewing generated images, and an evaluation kit for measuring which details each model keeps. The content is written in Chinese; lock prompts are in English.
+It also covers the rest of character pre-production for AI short films: 122 film archetype cards, ensemble differentiation (silhouette, key color, hair outline, signature item, material, posture, speech), costume brainstorming, wardrobe/props/continuity breakdowns, period-accuracy review, a drift checklist for reviewing generated images, and an evaluation kit for measuring which details each model keeps. The content is written in Chinese; lock prompts are in English.
 
 Install: `git clone` this repo and run `./install.sh` (Claude Code, global), `./install.sh <project-dir>` (one project), or `./install.sh --codex`; or upload `juese-sheji.zip` from Releases to claude.ai.
