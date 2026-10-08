@@ -6,6 +6,7 @@ R="${0:A:h}"
 SRC="${JUESE_SRC:-$HOME/claude/aigc/.claude/skills/juese-sheji}"
 rsync -a --delete --exclude .DS_Store --exclude __pycache__ --exclude 'evals/runs' "$SRC/" "$R/juese-sheji/"
 cd "$R"
+python3 package.py   # 顺手重新打 dist/juese-sheji.zip（发版时 gh release upload）
 git add -A
 git diff --cached --quiet && { echo "没有改动"; exit 0; }
 git commit -q -m "${1:-同步 skill}"
