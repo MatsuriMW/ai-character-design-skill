@@ -2,7 +2,7 @@ name: 发布新版本
 
 # juese-sheji/ 或 package.py 有改动并推送到 main 时，自动发一个新版本：
 # 版本号在上一个标签的基础上加一（默认 patch：v0.1.1 → v0.1.2），
-# 这次推送的提交说明里写 #minor 或 #major 就升对应那一位（v0.1.x → v0.2.0 / v1.0.0）。
+# 想升大版本：提交说明的**末尾**写 #minor 或 #major（例：./sync.sh "加了新模式 #minor"），升对应那一位（v0.1.x → v0.2.0 / v1.0.0）。
 # 每个版本带两个包：juese-sheji.zip（claude.ai 用）、juese-sheji-skillhub.zip（SKILL.md 在根目录，SkillHub 用），
 # 说明里列出上一个版本以来的提交。也可以在 Actions 页面手动 Run workflow 发一版。
 on:
@@ -32,9 +32,9 @@ jobs:
           prev=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo v0.0.0)
           IFS=. read -r major minor patch <<< "${prev#v}"
           major=${major:-0}; minor=${minor:-0}; patch=${patch:-0}
-          msgs=$(git log --format=%B "$prev"..HEAD 2>/dev/null || git log --format=%B)
-          if grep -q '#major' <<< "$msgs"; then major=$((major+1)); minor=0; patch=0
-          elif grep -q '#minor' <<< "$msgs"; then minor=$((minor+1)); patch=0
+          subjects=$(git log --format=%s "$prev"..HEAD 2>/dev/null || git log --format=%s)
+          if grep -qE '#major[[:space:]]*$' <<< "$subjects"; then major=$((major+1)); minor=0; patch=0
+          elif grep -qE '#minor[[:space:]]*$' <<< "$subjects"; then minor=$((minor+1)); patch=0
           else patch=$((patch+1)); fi
           echo "prev=$prev" >> "$GITHUB_OUTPUT"
           echo "new=v$major.$minor.$patch" >> "$GITHUB_OUTPUT"
@@ -47,7 +47,7 @@ jobs:
           {
             echo "## 这一版改了什么"
             echo
-            git log --no-merges --format='- %s' "${{ steps.ver.outputs.prev }}"..HEAD | sed 's/ *#\(minor\|major\)//g'
+            git log --no-merges --format='- %s' "${{ steps.ver.outputs.prev }}"..HEAD | sed -E 's/ *#(minor|major)[[:space:]]*$//'
             echo
             echo "## 下载"
             echo
