@@ -5,7 +5,8 @@ name: 发布新版本
 # 想升大版本：提交说明的**末尾**写 #minor 或 #major（例：./sync.sh "加了新模式 #minor"），升对应那一位（v0.1.x → v0.2.0 / v1.0.0）。
 # 每个版本带两个包：juese-sheji.zip（claude.ai 用）、juese-sheji-skillhub.zip（SKILL.md 在根目录，SkillHub 用），
 # 说明里列出上一个版本以来的提交。也可以在 Actions 页面手动 Run workflow 发一版。
-# 发完同步到 Linear：提交说明里提到的卡（MAT-123）各留一条「已发布于」评论，基线卡 MAT-96 留完整更新说明。
+# 发完同步到 Linear 的 ai-character-design-skill project：发一条 project 更新、刷新 project 介绍，
+# 提交说明里提到的卡（MAT-123）各留一条「已发布于」评论，基线卡 MAT-96 留完整更新说明。
 # 需要仓库 secret LINEAR_API_KEY；没配就跳过这一步。
 on:
   push:
@@ -66,9 +67,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: 同步到 Linear
-        run: python3 .github/scripts/linear_release.py
+        run: python3 .github/scripts/linear_sync.py release
         env:
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_PROJECT: aa24c442-f21b-4e1b-a51b-e24975a9c216
           LINEAR_BASELINE: MAT-96
           TAG: ${{ steps.ver.outputs.new }}
           PREV: ${{ steps.ver.outputs.prev }}
+          GH_TOKEN: ${{ github.token }}

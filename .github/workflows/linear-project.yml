@@ -1,0 +1,27 @@
+name: 同步 Linear project
+
+# 不发版的推送（README、install.sh、workflow 等）也同步到 Linear 的 ai-character-design-skill project：
+# 刷新 project 介绍（README 开头 +「能做什么」、当前版本、最近 10 次提交）。
+# 改到 juese-sheji/ 或 package.py 的推送由「发布新版本」负责，发完版顺带刷新，这里不重复跑。
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["juese-sheji/**", "package.py"]
+  workflow_dispatch:
+
+concurrency:
+  group: linear
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+      - run: python3 .github/scripts/linear_sync.py project
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_PROJECT: aa24c442-f21b-4e1b-a51b-e24975a9c216
+          GH_TOKEN: ${{ github.token }}
