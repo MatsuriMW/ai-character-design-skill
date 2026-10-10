@@ -1,25 +1,64 @@
-name: 更新 Release 附件
+name: 发布新版本
 
-# juese-sheji/ 有改动时重新打包，替换 Release 上的两个 zip。
-# 发新版本时把 TAG 改成新版本号（先 gh release create 建好那个版本）。
+# juese-sheji/ 或 package.py 有改动并推送到 main 时，自动发一个新版本：
+# 版本号在上一个标签的基础上加一（默认 patch：v0.1.1 → v0.1.2），
+# 这次推送的提交说明里写 #minor 或 #major 就升对应那一位（v0.1.x → v0.2.0 / v1.0.0）。
+# 每个版本带两个包：juese-sheji.zip（claude.ai 用）、juese-sheji-skillhub.zip（SKILL.md 在根目录，SkillHub 用），
+# 说明里列出上一个版本以来的提交。也可以在 Actions 页面手动 Run workflow 发一版。
 on:
   push:
     branches: [main]
-    paths: ["juese-sheji/**", "package.py", ".github/workflows/release.yml"]
+    paths: ["juese-sheji/**", "package.py"]
   workflow_dispatch:
 
 permissions:
   contents: write
 
-env:
-  TAG: v0.1
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
-  upload:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 package.py
-      - run: gh release upload "$TAG" dist/juese-sheji.zip dist/juese-sheji-skillhub.zip --clobber
+        with:
+          fetch-depth: 0
+
+      - name: 算版本号
+        id: ver
+        run: |
+          prev=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo v0.0.0)
+          IFS=. read -r major minor patch <<< "${prev#v}"
+          major=${major:-0}; minor=${minor:-0}; patch=${patch:-0}
+          msgs=$(git log --format=%B "$prev"..HEAD 2>/dev/null || git log --format=%B)
+          if grep -q '#major' <<< "$msgs"; then major=$((major+1)); minor=0; patch=0
+          elif grep -q '#minor' <<< "$msgs"; then minor=$((minor+1)); patch=0
+          else patch=$((patch+1)); fi
+          echo "prev=$prev" >> "$GITHUB_OUTPUT"
+          echo "new=v$major.$minor.$patch" >> "$GITHUB_OUTPUT"
+
+      - name: 打包
+        run: python3 package.py
+
+      - name: 写说明
+        run: |
+          {
+            echo "## 这一版改了什么"
+            echo
+            git log --no-merges --format='- %s' "${{ steps.ver.outputs.prev }}"..HEAD | sed 's/ *#\(minor\|major\)//g'
+            echo
+            echo "## 下载"
+            echo
+            echo "- \`juese-sheji.zip\`：Claude Code 手动安装、claude.ai（设置 → Capabilities → Skills 上传）"
+            echo "- \`juese-sheji-skillhub.zip\`：SkillHub 等要求 SKILL.md 在 zip 根目录的平台"
+            echo
+            echo "完整改动：https://github.com/${{ github.repository }}/compare/${{ steps.ver.outputs.prev }}...${{ steps.ver.outputs.new }}"
+          } > notes.md
+          cat notes.md
+
+      - name: 发布
+        run: gh release create "${{ steps.ver.outputs.new }}" dist/juese-sheji.zip dist/juese-sheji-skillhub.zip --target "$GITHUB_SHA" --title "${{ steps.ver.outputs.new }}" --notes-file notes.md --latest
         env:
           GH_TOKEN: ${{ github.token }}

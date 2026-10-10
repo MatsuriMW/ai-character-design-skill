@@ -131,9 +131,9 @@ cd ai-character-design-skill
 
 或者手动把 `juese-sheji/` 文件夹复制到 `~/.claude/skills/`（或项目的 `.claude/skills/`）。装好后重开 Claude Code 会话。
 
-**claude.ai**：在 [Releases](https://github.com/MatsuriMW/ai-character-design-skill/releases) 下载 `juese-sheji.zip`，到 设置 → Capabilities → Skills 上传。
+**claude.ai**：在[最新的 Release](https://github.com/MatsuriMW/ai-character-design-skill/releases/latest) 下载 `juese-sheji.zip`，到 设置 → Capabilities → Skills 上传。
 
-**SkillHub / 其他要求 SKILL.md 在 zip 根目录的平台**：同一个 Release 里下载 `juese-sheji-skillhub.zip`。也可以直接在 [SkillHub](https://skillhub.cn/skills/user_1e879f9b/juese-sheji) 安装。Release 里的两个包每次更新都会自动重新打包。
+**SkillHub / 其他要求 SKILL.md 在 zip 根目录的平台**：同一个 Release 里下载 `juese-sheji-skillhub.zip`。也可以直接在 [SkillHub](https://skillhub.cn/skills/user_1e879f9b/juese-sheji) 安装。每次更新都会自动发一个新版本，下载[最新的 Release](https://github.com/MatsuriMW/ai-character-design-skill/releases/latest) 就行，说明里写着这一版改了什么。
 
 不需要装任何依赖。只有 `scripts/sync-styles.py`（换成你自己的风格库时用）需要 Python 3。
 

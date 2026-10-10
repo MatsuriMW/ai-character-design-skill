@@ -6,7 +6,7 @@ R="${0:A:h}"
 SRC="${JUESE_SRC:-$HOME/claude/aigc/.claude/skills/juese-sheji}"
 rsync -a --delete --exclude .DS_Store --exclude __pycache__ --exclude 'evals/runs' "$SRC/" "$R/juese-sheji/"
 cd "$R"
-python3 package.py   # 本地也打一份 dist/ 的两个 zip；Release 附件由 GitHub Actions 推送后自动更新
+python3 package.py   # 本地也打一份 dist/ 的两个 zip；推送后 GitHub Actions 自动发新版本（提交说明写 #minor / #major 升大版本）
 git add -A
 git diff --cached --quiet && { echo "没有改动"; exit 0; }
 git commit -q -m "${1:-同步 skill}"
