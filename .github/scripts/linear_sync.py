@@ -6,7 +6,8 @@
   python3 .github/scripts/linear_sync.py release   发完新版本：project 发一条版本更新；提交说明里提到的卡（MAT-123）
                                                   各评论「已发布于」；基线卡评论完整更新说明；再刷新一次 project 介绍
 
-环境变量：LINEAR_API_KEY（仓库 secret，没有就跳过）、LINEAR_PROJECT（project id）、LINEAR_BASELINE（基线卡，默认 MAT-96）、
+环境变量：LINEAR_API_KEY（仓库 secret，没有就跳过）、LINEAR_PROJECT（project id）、LINEAR_BASELINE（基线卡，不填就不评论基线卡）、
+LINEAR_TEAM（卡号前缀，默认取基线卡的前缀或 MAT）、README_FROM（只取 README 里这个标记之后的部分当介绍，比如中文说明的锚点）、
 release 模式另需 TAG、PREV，以及当前目录下的 notes.md。
 """
 import json
@@ -19,8 +20,9 @@ import urllib.request
 MODE = sys.argv[1] if len(sys.argv) > 1 else "project"
 KEY = os.environ.get("LINEAR_API_KEY", "").strip()
 PROJECT = os.environ["LINEAR_PROJECT"]
-BASELINE = os.environ.get("LINEAR_BASELINE", "MAT-96")
-TEAM = BASELINE.split("-")[0]
+BASELINE = os.environ.get("LINEAR_BASELINE", "").strip()
+TEAM = os.environ.get("LINEAR_TEAM") or (BASELINE.split("-")[0] if BASELINE else "MAT")
+README_FROM = os.environ.get("README_FROM", "")
 REPO = os.environ["GITHUB_REPOSITORY"]
 GH = f"https://github.com/{REPO}"
 
@@ -60,6 +62,11 @@ def absolute_links(md):
 
 def readme_parts():
     text = open("README.md", encoding="utf-8").read()
+    if README_FROM and README_FROM in text:
+        # 只要标记之后的部分（比如 README 末尾的中文说明）：整段当介绍，去掉它自己的二级标题
+        part = text.split(README_FROM, 1)[1].strip()
+        part = re.sub(r"^## [^\n]*\n+", "", part)
+        return part, ""
     intro = []
     for line in text.splitlines()[1:]:  # 跳过标题
         if line.startswith("[English summary]") or line.strip() == "---":
@@ -112,11 +119,12 @@ def release():
     gql("mutation($i:ProjectUpdateCreateInput!){projectUpdateCreate(input:$i){success}}",
         {"i": {"projectId": PROJECT, "health": "onTrack", "body": f"🚀 **[{tag}]({url})** 已发布\n\n{notes}"}})
     print("已发 project 更新")
-    log = sh("git", "log", "--no-merges", "--format=%B", f"{prev}..HEAD")
+    log = sh("git", "log", "--no-merges", "--format=%B", f"{prev}..HEAD" if prev else "HEAD")
     ids = sorted(set(re.findall(rf"\b{TEAM}-\d+\b", log)) - {BASELINE}, key=lambda s: int(s.split("-")[1]))
     for i in ids:
         comment(i, f"🚀 已发布于 [{tag}]({url})")
-    comment(BASELINE, f"🚀 **[{tag}]({url})** 已发布\n\n{notes}")
+    if BASELINE:
+        comment(BASELINE, f"🚀 **[{tag}]({url})** 已发布\n\n{notes}")
 
 
 if not KEY:
