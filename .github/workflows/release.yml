@@ -1,0 +1,25 @@
+name: 更新 Release 附件
+
+# juese-sheji/ 有改动时重新打包，替换 Release 上的两个 zip。
+# 发新版本时把 TAG 改成新版本号（先 gh release create 建好那个版本）。
+on:
+  push:
+    branches: [main]
+    paths: ["juese-sheji/**", "package.py", ".github/workflows/release.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  TAG: v0.1
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 package.py
+      - run: gh release upload "$TAG" dist/juese-sheji.zip dist/juese-sheji-skillhub.zip --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
