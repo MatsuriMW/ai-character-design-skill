@@ -66,3 +66,5 @@ logos, brand names, readable text on clothing, extra accessories, missing access
 changed outfit, different clothing colors, extra pockets, mismatched shoes,
 futuristic devices, anachronistic objects
 ```
+
+发型相关的负面限制和「只改发型」的约束句见 `dimensions/02-发型.md`「按九项顺序写」。
