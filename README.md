@@ -46,6 +46,19 @@ slightly left. Keep all of the above identical in every shot.
 
 整篇没有一个「轻佻」：轻佻被拆到了发型、穿法、戴法、姿态和说话方式里。每一行都是一个可以单独拧的旋钮：出图不对时只换一行，就知道是哪一项的问题。
 
+**再看一个有反差的人：「温柔的大块头」**（完整版见 [`examples/温柔的大块头.md`](juese-sheji/examples/温柔的大块头.md)）
+
+反差感也能拆。这个 skill 把每个部位放到一条**刚柔光谱**上（常说的男性气质 ↔ 女性气质，但和性别无关）：骨架、脸、眼睛是**底色**，改不了；衣服是**推向**，可以往刚推，也可以往柔推；姿态和说话是**习惯**。
+
+| 层 | 刚柔（1 柔 – 5 刚） | 落在哪里 |
+|---|---|---|
+| 底色 | 5，只有眼睛是 2 | 185cm、约 100kg，肩宽、斜方肌隆起，方下颌、手大指节粗、摔跤留下的饺子耳；眼睛却是眼梢微垂、黑眼珠大、有卧蚕 |
+| 推向 | 往柔推到 2 | 燕麦色粗针落肩开衫只扣中间两颗木扣，雾蓝圆领旧棉 T，奶咖灯芯绒裤，米白旧德训鞋；低对比，身上没有金属、没有尖角 |
+| 习惯 | 1–2 | 含胸，和人说话先蹲下，手永远放在对方看得见的地方，语速慢、声音压小 |
+| 反向的那一处 | | 整套柔软的衣服里，留着饺子耳和一双指节粗大、带猫抓痕的手 |
+
+读出来是「怕吓到别人的大块头」。这就是一个具体的人，不是「gentle giant」这个词在模型那里的平均画面。
+
 ## 适合谁
 
 - **做 AI 短片、AI 漫剧的人**：要让同一个角色在每个镜头里长得一样、穿得一样，还要有辨识度，而不是一张 AI 平均脸。
@@ -76,7 +89,8 @@ slightly left. Keep all of the above identical in every shot.
   - **服装风格**（47 个，一个人*选择*怎么穿）：绅装、知识分子风、cityboy、老钱、工装、阿美咔叽、哥特、Y2K、Hedi Slimane……，带经典单品、配色 HEX、要当心的地方和风格档案。
   - **时代与类型**（30 多个，时代和故事世界*替人决定*怎么穿）：民国、五六十年代、八十年代、九十年代港风；1920s–1980s 欧美；嘻哈、机车、西部牛仔、杀马特、精神小伙、JK / DK；军警、空乘、保安、流水线、消防；武侠古装（按唐宋明分开写）、港片江湖、黑色电影、赛博朋克、蒸汽朋克、太空科幻、中世纪奇幻。每条都有「容易出错」（常见的时代穿帮和 AI 默认值）和「写给模型」的英文关键词。
   - **人群与身份**（生活观察）：城市老年人：鞋面落了一层灰的黑色老布鞋、凹了的不锈钢保温杯、老花镜插在衬衫口袋、双手背在身后走路；还有外卖骑手、老派教授、菜市场摊主、全职妈妈、小镇青年等 20 多类人。
-- **群像拉开**：多个主要角色同场时，按剪影、主色、发型轮廓、标志性单品、材质、姿态、说话七个轴两两比较（至少 4 轴不同，剪影和主色必须不同），做远景测试和黑白测试，放进「冷暖 × 复杂度」视觉领地，再用一处共同点表达关系。观众分得清谁是谁，模型也不容易把两个人画串。
+- **刚柔光谱**（[`references/soft-hard-axis.md`](juese-sheji/references/soft-hard-axis.md)）：把肩线（落肩 / 垫肩）、眼梢（下垂 / 上扬）、眼的温润感、骨架大小、脸部棱角、面料（垂坠 / 挺括）、配色对比、姿态占不占空间等几十项，放到同一条刚 ↔ 柔光谱上，分底色、推向、习惯三层。用来查各维度统不统一，说清反差落在哪里（温柔的大块头、穿垫肩西装硬撑的娃娃脸），写弧光（黑化往刚、卸下防备往柔），也用来拉开群像。和性别脱钩，不默认女柔男硬。
+- **群像拉开**：多个主要角色同场时，按剪影、主色、发型轮廓、标志性单品、材质、姿态、说话、刚柔位置八个轴两两比较（至少 4 轴不同，剪影和主色必须不同），做远景测试和黑白测试，放进「冷暖 × 复杂度」视觉领地，再用一处共同点表达关系。观众分得清谁是谁，模型也不容易把两个人画串。
 - **漂移清单 + 评测**：出图后逐项看哪些写了的东西被模型改回了平均值、怎么修；[`evals/`](juese-sheji/evals/) 带 5 个现成用例，对比「直接写形容词」和「具体化」，测每个模型能保住哪一层细节，结果记进模型能力笔记。
 
 ## 安装
@@ -134,6 +148,7 @@ juese-sheji/
 │   ├── dimensions/              八个维度词库 + 索引（气质词 → 常用切口）
 │   ├── styles/                  风格库：服装风格（生成）+ 时代与类型 + 人群与身份（手写）+ 索引
 │   ├── archetypes/              122 张人物原型卡 + 慎用清单
+│   ├── soft-hard-axis.md        刚柔光谱（男性气质 ↔ 女性气质）
 │   ├── ensemble.md              群像拉开
 │   ├── drift-checklist.md       审出图用的漂移清单
 │   ├── model-notes.md           各模型能保住 / 吞掉哪些细节（评测后填）
@@ -143,7 +158,7 @@ juese-sheji/
 │   ├── brainstorm-methods.md    创意风暴的方法库
 │   └── archetype-methods.md     原型 → 本土化的方法
 ├── templates/                   人物精细描述、群像对照表、人物原型、创意风暴、服化道总表、检验报告
-├── examples/轻佻的男性.md        模式 E 的完整示例
+├── examples/                    模式 E 的完整示例：轻佻的男性、温柔的大块头（刚柔反差）
 ├── evals/                       评测流程、5 个用例、记录模板
 └── scripts/sync-styles.py       从 Obsidian 风格库生成 服装风格.md
 ```
@@ -182,7 +197,7 @@ juese-sheji/
 
 **juese-sheji** (角色设计, "character design") is an Agent Skill for Claude Code, Codex and claude.ai that turns a vague impression of a character ("a flirtatious man", "an old man", "someone gentlemanly") into a precise, model-executable description for AI image and video generation.
 
-Core idea: *whatever you leave unsaid, the model fills in with its default — the statistical average.* Adjectives ask the model to guess; nouns place an order. The skill breaks a character into eight dimensions (face, hair, accessories as material × style × way of wearing, clothing, body & posture, **life traces** such as calluses or cauliflower ears, **micro-expressions** written as FACS muscle actions with amplitude and duration, and speech), gives one chosen option plus 2–3 alternatives per dimension, tags each line as identity / look / state, marks how close the camera must be to see it, and outputs a ready-to-paste English lock prompt, a video motion prompt, acting notes and speech notes.
+Core idea: *whatever you leave unsaid, the model fills in with its default — the statistical average.* Adjectives ask the model to guess; nouns place an order. The skill breaks a character into eight dimensions (face, hair, accessories as material × style × way of wearing, clothing, body & posture, **life traces** such as calluses or cauliflower ears, **micro-expressions** written as FACS muscle actions with amplitude and duration, and speech), gives one chosen option plus 2–3 alternatives per dimension, tags each line as identity / look / state, places every feature on a hard ↔ soft spectrum (often called masculine ↔ feminine, but decoupled from gender) to check consistency and design deliberate contrast, marks how close the camera must be to see it, and outputs a ready-to-paste English lock prompt, a video motion prompt, acting notes and speech notes.
 
 A style library backs it up: 47 fashion aesthetics, 30+ eras / subcultures / uniforms / genre worlds (Republican-era China to 1990s Hong Kong, 1920s–1980s West, hip-hop, bikers, cowboys, uniforms, wuxia by dynasty, film noir, cyberpunk, steampunk, sci-fi, medieval fantasy — each with common anachronisms and English prompt keywords), and everyday observations of 20+ kinds of people.
 
