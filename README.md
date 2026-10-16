@@ -210,7 +210,14 @@ juese-sheji/
 
 ## License
 
-[MIT](LICENSE) © 马自立（[@MatsuriMW](https://github.com/MatsuriMW)）
+[CC BY-NC-SA 4.0](LICENSE)（署名-非商业性使用-相同方式共享）© 马自立（[@MatsuriMW](https://github.com/MatsuriMW)）
+
+- 可以免费用、转载、改编，转载和改编要写明原作者和本仓库链接，改编后的版本用同一个协议发布。
+- 不能拿这个 skill 本身去卖：付费下载、打包进付费课程或资料包、在付费 skill 市场转售都不行。
+- 用它做出来的人物描述、提示词、图和视频归你自己，不受这个协议限制。
+- 想商用，或者拿不准算不算商用，联系作者。
+
+改协议之前已经发布的提交和 Release 仍按 MIT；之后的版本按 CC BY-NC-SA 4.0。
 
 ---
 
