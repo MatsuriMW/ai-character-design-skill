@@ -45,13 +45,15 @@ def gql(query, variables=None):
 
 
 def comment(identifier, body):
+    # 卡不存在、没权限、已删或已归档：记一笔，不让流程失败。
+    # 删掉的卡（在回收站里）按卡号还查得到，评论时才报 Entity not found，所以评论也要包在里面
     try:
         issue = gql("query($id:String!){issue(id:$id){id}}", {"id": identifier})["issue"]
-    except Exception as e:  # 卡不存在或没权限：记一笔，不让流程失败
+        gql("mutation($i:CommentCreateInput!){commentCreate(input:$i){success}}",
+            {"i": {"issueId": issue["id"], "body": body}})
+    except Exception as e:
         print(f"跳过 {identifier}：{e}")
         return
-    gql("mutation($i:CommentCreateInput!){commentCreate(input:$i){success}}",
-        {"i": {"issueId": issue["id"], "body": body}})
     print(f"已评论 {identifier}")
 
 
