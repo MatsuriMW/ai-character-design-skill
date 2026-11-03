@@ -81,6 +81,20 @@ slightly left. Keep all of the above identical in every shot.
 
 ![大山的表情谱：开心、悲伤、惊讶、生气和专属的道歉脸，每一项写肌肉动作、强度级和不动的部位，对照只写情绪名时模型常画出的夸张表情](docs/preview/03-expression-sheet.png)
 
+## 实测：GPT Image 2.5 出图对比
+
+用 GPT Image 2.5（Flare）跑了 [`evals/`](juese-sheji/evals/) 里的两个用例。每组出 3 张，下面各挑一张：A 只写一句形容词，B 是具体化后的主设定（全身），C 是主设定加深入档的特写细节（胸像）。
+
+**一个老年人**：只写 `An old Chinese man`，三张都是唐装盘扣、白山羊胡、瓜皮帽，衣服崭新，是模型脑子里的「中国老人」。换成主设定，褪色的夹克、扣到顶的格子衬衫、落了灰的老布鞋、凹了的保温杯、红白蓝编织袋，三张全出来了。把 A、B 组打乱，交给一个没看过 prompt 的 agent 去认：A 组 3 张里只有 1 张被认成「具体的人」，B 组 3 张都是，其余被认成模特。
+
+![一个老年人：A 只写 An old Chinese man，出来唐装、山羊胡、瓜皮帽的刻板老人；B 具体化后，褪色夹克、格子衬衫、落灰布鞋、保温杯、编织袋都在；C 特写里有老年斑、一只浑浊的眼和长白眉毛](docs/evals/01-old-man.jpg)
+
+**轻佻的男性**：衣服、鞋、配饰全保住了，可「轻佻」主要写在姿态（重心压一条腿、胯歪、头歪）和嘴角里，这两项在全身图里被模型换成了时装图册的站姿和空白脸，盲认读成「清冷」。到了特写，嘴角和那缕刘海才回来。所以**靠姿态和表情撑气质的人，要用半身、特写镜头或参考图来交代，别指望一张全身图**。
+
+![轻佻的男性：A 只写形容词，出来指尖抵唇、眨眼的摆拍；B 具体化后衣服配饰全对，但姿态和嘴角丢了，读成清冷；C 特写里嘴角、刘海和油光回来了](docs/evals/02-frivolous-man.jpg)
+
+各层细节保住了多少、哪些项常被模型改回平均值，记在 [`model-notes.md`](juese-sheji/references/model-notes.md)；换成你自己用的模型，照 [`evals/README.md`](juese-sheji/evals/README.md) 跑一遍就能比。
+
 ## 适合谁
 
 - **做 AI 短片、AI 漫剧的人**：要让同一个角色在每个镜头里长得一样、穿得一样，还要有辨识度，而不是一张 AI 平均脸。
@@ -240,5 +254,7 @@ The expression set targets one of the most obvious tells of AI imagery: exaggera
 A style library backs it up: 47 fashion aesthetics, 30+ eras / subcultures / uniforms / genre worlds (Republican-era China to 1990s Hong Kong, 1920s–1980s West, hip-hop, bikers, cowboys, uniforms, wuxia by dynasty, film noir, cyberpunk, steampunk, sci-fi, medieval fantasy — each with common anachronisms and English prompt keywords), and everyday observations of 20+ kinds of people.
 
 It also covers the rest of character pre-production for AI short films: 122 film archetype cards, ensemble differentiation (silhouette, key color, hair outline, signature item, material, posture, speech, hard ↔ soft position), costume brainstorming, wardrobe/props/continuity breakdowns, period-accuracy review, a drift checklist for reviewing generated images, and an evaluation kit for measuring which details each model keeps. The content is written in Chinese; lock prompts are in English.
+
+A first evaluation run on GPT Image 2.5 (Flare) is shown in the comparison images above. For "an old Chinese man", the adjective-only prompt produced a stereotyped elder in a Tang jacket and skullcap, while the articulated prompt produced a specific, recognizable city pensioner. For "a flirtatious man", every garment and accessory held, but the posture and mouth corners that carried the attitude were dropped in full-body shots, so a blind reader saw him as aloof. Attitude that lives in posture and expression needs closer shots or a reference image.
 
 Install: `git clone` this repo and run `./install.sh` (Claude Code, global), `./install.sh <project-dir>` (one project), or `./install.sh --codex`; or upload `juese-sheji.zip` from Releases to claude.ai.

@@ -1,7 +1,8 @@
 # 评测用例
 
 每个用例三组 prompt：A 形容词组（原话直译）、B 主设定组（全身）、C 深入组（主设定 + 特写细节，胸像特写）。
-构图统一后缀：A、B 用 `Full body, standing, plain off-white background, even soft light, photorealistic.`；C 用 `Chest-up close-up portrait, plain off-white background, even soft light, photorealistic.`
+构图统一后缀：A、B 用 `Full body, plain off-white background, even soft light, photorealistic.`（不写 standing，姿态由人物描述自己定，用例 5 是蹲着的）；C 用 `Chest-up close-up portrait, plain off-white background, even soft light, photorealistic.`
+C 组的胸像装不下手：特写细节里写在手上的项记 —，要测手部就另出一张手部特写。
 B、C 是模式 E 跑出来的结果（用例 1 的完整描述见 `../examples/轻佻的男性.md`）；词库更新后可以重跑模式 E 再测。
 
 ---
