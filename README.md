@@ -155,7 +155,7 @@ cd ai-character-design-skill
 
 **SkillHub / 其他要求 SKILL.md 在 zip 根目录的平台**：同一个 Release 里下载 `juese-sheji-skillhub.zip`。也可以直接在 [SkillHub](https://skillhub.cn/skills/user_1e879f9b/juese-sheji) 安装。每次更新都会自动发一个新版本，下载[最新的 Release](https://github.com/MatsuriMW/ai-character-design-skill/releases/latest) 就行，说明里写着这一版改了什么。
 
-不需要装任何依赖。只有 `scripts/sync-styles.py`（换成你自己的风格库时用）需要 Python 3。
+不需要装任何依赖，风格库和原型卡都随 skill 预制好了。
 
 ## 怎么用
 
@@ -188,7 +188,7 @@ juese-sheji/
 ├── references/
 │   ├── articulate-rules.md      写法规则（整个 skill 的底层）
 │   ├── dimensions/              九个维度词库 + 索引（气质词 → 常用切口）
-│   ├── styles/                  风格库：服装风格（生成）+ 时代与类型 + 人群与身份（手写）+ 索引
+│   ├── styles/                  风格库：服装风格 + 时代与类型 + 人群与身份 + 索引
 │   ├── archetypes/              122 张人物原型卡 + 慎用清单
 │   ├── soft-hard-axis.md        刚柔光谱（男性气质 ↔ 女性气质）
 │   ├── expression-restraint.md  表情防夸张：强度分级、不动的部位、换词表、审图征兆
@@ -202,8 +202,7 @@ juese-sheji/
 │   └── archetype-methods.md     原型 → 本土化的方法
 ├── templates/                   人物精细描述、群像对照表、人物原型、创意风暴、服化道总表、检验报告
 ├── examples/                    模式 E 的完整示例：轻佻的男性、温柔的大块头（刚柔反差）
-├── evals/                       评测流程、6 个用例（含表情防夸张）、记录模板
-└── scripts/sync-styles.py       从 Obsidian 风格库生成 服装风格.md
+└── evals/                       评测流程、6 个用例（含表情防夸张）、记录模板
 ```
 
 ## 扩充
@@ -214,19 +213,14 @@ juese-sheji/
 - **气质词**：在 `references/dimensions/索引.md` 的「气质词 → 常用切口」加一节。
 - **人群与身份**：在 `references/styles/人群与身份.md` 按格式加一类人。
 - **时代与类型**：在 `references/styles/时代与类型.md` 按格式加一个时代、圈子、制服或故事世界。
-- **服装风格**：用你自己的 Obsidian 风格库生成（每个风格一篇笔记，frontmatter 写 `type: 审美风格`），格式和命令见 [`references/styles/索引.md`](juese-sheji/references/styles/索引.md) 的「用你自己的风格库」：
-
-  ```bash
-  python3 juese-sheji/scripts/sync-styles.py "<你的风格文件夹>"
-  ```
-
+- **服装风格**：在 `references/styles/服装风格.md` 按格式加一节，并在开头的总表加一行。
 - **模型能力**：跑一次 [`evals/`](juese-sheji/evals/README.md)，把结果写进 `references/model-notes.md`。欢迎把你的实测结果提 PR。
 
 ## 来源与致谢
 
 - 写法规则来自作者的口播稿《你没说出来的部分，模型替你做主》（articulate 与提示词）。
 - 微表情按 Ekman & Friesen 的面部动作编码系统（FACS）整理；平均脸的说法参考 Langlois & Roggman (1990)。
-- 风格库来自作者在 Obsidian 里整理的风格笔记；品牌只作风格参照，锁定段里一律写款式、不写品牌和 logo。
+- 风格库来自作者整理的风格笔记；品牌只作风格参照，锁定段里一律写款式、不写品牌和 logo。
 
 ## License
 
