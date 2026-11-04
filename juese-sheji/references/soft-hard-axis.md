@@ -48,6 +48,8 @@
 | 手 | 手小、手指细长、指节不显、指甲圆 | | 手大、指节粗、手背青筋 | small hands, slender fingers, rounded nails / large hands, thick knuckles, raised veins | 〔中〕〔特〕 |
 | 皮肤 | 皮相软：肉包着骨，皮肤细、毛孔小 | | 骨相硬：骨点清楚；毛孔粗、胡青重 | soft fleshy features, fine skin / angular bone structure, coarse pores, heavy stubble shadow | 〔特〕 |
 
+（眉尾的走向还有一条单独的读法：越张扬越往上飞，越内向越往下，见 `dimensions/01-脸与五官.md`。和刚柔不是一回事：角度看张扬程度，粗细看刚柔。粗一字眉偏刚，但它是平的；娇纵的人偏柔，眉尾却可以上挑。）
+
 ### 推向（造型层）
 
 | 项 | 柔端 | 中间 | 刚端 | 英文（柔 / 刚） | 距离 |
