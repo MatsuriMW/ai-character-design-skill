@@ -65,6 +65,8 @@
 | 发型轮廓 | 圆润蓬松、有弧度、碎发、刘海盖额、发尾内扣 | | 直线、贴头皮、铲青、利落的发际边缘、背头、高马尾扎紧 | rounded fluffy shape, wispy bangs / clean straight lines, shaved sides, slicked back, tight high ponytail | 〔全〕〔中〕 |
 | 妆 | 眉毛画平画淡、眼线往下拖、腮红在苹果肌、唇色晕开 | 素颜 | 眉峰画高、眼线上挑、修容打在颧下、唇线清楚、唇色深 | soft flat brows, downturned liner, blush on the apples, blurred lips / arched brows, winged liner, sculpted cheekbones, defined dark lips | 〔中〕 |
 
+（鞋头尖和圆还有一条单独的读法：越骚越尖，越老实越圆，见 `dimensions/04-服装.md`。和刚柔不是一回事：方头和钢头偏刚，但并不骚。）
+
 ### 习惯（姿态、表情、说话）
 
 | 项 | 柔端 | 中间 | 刚端 | 距离 |
